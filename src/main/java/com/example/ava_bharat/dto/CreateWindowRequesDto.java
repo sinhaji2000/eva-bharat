@@ -1,14 +1,15 @@
 package com.example.ava_bharat.dto;
 
-import java.util.*;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data 
-@Builder 
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateWindowRequesDto {
-    
-    private String name ;
+
+    private String name;
 }

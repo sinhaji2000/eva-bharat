@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWindowResponseDto {
+public class TriggerSyncRequestDto {
 
-    private Long id;
-    private String name;
-    private Integer cycleDurationSeconds;
+    private Long mediaId;
+    private Integer durationSeconds;
 }

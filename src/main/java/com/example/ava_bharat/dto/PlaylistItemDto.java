@@ -11,11 +11,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateMediaItemRequestDto {
+public class PlaylistItemDto {
 
-    private String code;
-    private String name;
+    private Long id;
+    private Integer position;
+    private Integer durationSeconds;
+    private Long mediaId;
+    private String mediaCode;
+    private String mediaName;
     private MediaType mediaType;
     private String mediaUrl;
-    private Integer durationSeconds;
 }

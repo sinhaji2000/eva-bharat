@@ -1,9 +1,6 @@
 package com.example.ava_bharat.entity;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,35 +18,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "playlist_items")
+@Table(name = "sync_events")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaylistItem {
+public class SyncEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "window_id", nullable = false)
-    private Window window;
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "media_id", nullable = false)
     private MediaItem mediaItem;
 
-    @Column(nullable = false)
-    private Integer position;
-
     @Column(name = "duration_seconds", nullable = false)
     private Integer durationSeconds;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @Column(name = "started_at", nullable = false)
+    private Instant startedAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    @Column(name = "is_active", nullable = false)
+    private Boolean active = true;
 }
