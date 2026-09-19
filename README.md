@@ -108,3 +108,7 @@ Without Docker: `./gradlew bootJar` and run `java -jar build/libs/ava-bharat-0.0
 - **Polling (1.5s) instead of WebSockets.** Playlist changes and a new sync reach other open tabs within one poll interval. The tab that triggers the sync applies it immediately. Sync *end* is computed locally, so it's exact.
 - **The duration is per playlist item**, so the same media can play for different lengths in different windows. Videos that are shorter than their slot loop, and longer ones are cut at the slot end.
 - Videos autoplay muted, because browsers block autoplay with sound.
+
+### Heroku
+
+Add the **JawsDB MySQL** add-on. The app reads `JAWSDB_URL` on startup and configures the datasource from it, so `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` are not needed there. `Procfile`, `system.properties` (Java 21) and the Gradle `stage` task are already set up for the Heroku Gradle buildpack.
