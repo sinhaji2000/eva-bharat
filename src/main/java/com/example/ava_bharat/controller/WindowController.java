@@ -3,6 +3,7 @@ package com.example.ava_bharat.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,11 @@ public class WindowController {
             @PathVariable Long windowId,
             @RequestBody AddPlaylistItemRequestDto request) {
         return ResponseEntity.ok(windowService.addMediaToWindow(windowId, request));
+    }
+
+    @DeleteMapping("/{windowId}/playlist/{itemId}")
+    public ResponseEntity<Void> removeMedia(@PathVariable Long windowId, @PathVariable Long itemId) {
+        windowService.removeMediaFromWindow(windowId, itemId);
+        return ResponseEntity.noContent().build();
     }
 }

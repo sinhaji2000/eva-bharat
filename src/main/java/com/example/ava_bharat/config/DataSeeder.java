@@ -34,12 +34,12 @@ public class DataSeeder implements CommandLineRunner {
         MediaItem m2 = saveMedia("M2", "Forest Path", MediaType.IMAGE,
                 "https://picsum.photos/id/1018/1280/720", 8);
         MediaItem m3 = saveMedia("M3", "Big Buck Bunny", MediaType.VIDEO,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", 12);
+                "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4", 12);
         MediaItem m4 = saveMedia("M4", "Coastline", MediaType.IMAGE,
                 "https://picsum.photos/id/1016/1280/720", 7);
         MediaItem m5 = saveMedia("M5", "Blank", MediaType.BLANK, null, 4);
-        MediaItem m6 = saveMedia("M6", "For Bigger Blazes", MediaType.VIDEO,
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", 10);
+        MediaItem m6 = saveMedia("M6", "Flower", MediaType.VIDEO,
+                "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", 10);
 
         Window windowA = saveWindow("Window A");
         Window windowB = saveWindow("Window B");

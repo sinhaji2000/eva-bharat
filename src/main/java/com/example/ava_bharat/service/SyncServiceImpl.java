@@ -39,39 +39,31 @@ public class SyncServiceImpl implements SyncService {
         MediaItem media = mediaItemRepository.findById(request.getMediaId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"));
 
-        List<SyncEvent> activeEvents = syncEventRepository.findAll().stream()
-                .filter(event -> Boolean.TRUE.equals(event.getActive()))
-                .toList();
+        List<SyncEvent> activeEvents = syncEventRepository.findByActiveTrue();
         activeEvents.forEach(event -> event.setActive(false));
         syncEventRepository.saveAll(activeEvents);
 
+        Instant now = Instant.now();
         SyncEvent event = SyncEvent.builder()
                 .mediaItem(media)
                 .durationSeconds(duration)
-                .startedAt(Instant.now())
+                .startedAt(now)
                 .active(true)
                 .build();
 
-        return toDto(syncEventRepository.save(event), Instant.now());
+        return toDto(syncEventRepository.save(event), now);
     }
 
+    // Pure read: a sync is "live" while now < startedAt + duration. Expired rows are
+    // left as history; triggerSync() deactivates older rows when a new sync starts.
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public SyncStateDto currentSync() {
         Instant now = Instant.now();
         return syncEventRepository.findFirstByActiveTrueOrderByStartedAtDesc()
-                .map(event -> expireIfNeeded(event, now))
-                .orElseGet(() -> inactive());
-    }
-
-    private SyncStateDto expireIfNeeded(SyncEvent event, Instant now) {
-        Instant endsAt = event.getStartedAt().plusSeconds(event.getDurationSeconds());
-        if (!now.isBefore(endsAt)) {
-            event.setActive(false);
-            syncEventRepository.save(event);
-            return inactive();
-        }
-        return toDto(event, now);
+                .filter(event -> now.isBefore(event.getStartedAt().plusSeconds(event.getDurationSeconds())))
+                .map(event -> toDto(event, now))
+                .orElseGet(this::inactive);
     }
 
     private SyncStateDto toDto(SyncEvent event, Instant now) {

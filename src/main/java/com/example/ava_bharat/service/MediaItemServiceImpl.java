@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.ava_bharat.dto.CreateMediaItemRequestDto;
 import com.example.ava_bharat.dto.CreateMediaItemResponseDto;
 import com.example.ava_bharat.entity.MediaItem;
+import com.example.ava_bharat.entity.MediaType;
 import com.example.ava_bharat.mapper.MediaItemMapper;
 import com.example.ava_bharat.repository.MediaItemRepository;
 
@@ -29,6 +30,12 @@ public class MediaItemServiceImpl implements MediaItemService {
         }
         if (mediaItemRepository.existsByCode(dto.getCode())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Media code already exists");
+        }
+        if (dto.getMediaType() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media type is required");
+        }
+        if (dto.getMediaType() != MediaType.BLANK && (dto.getMediaUrl() == null || dto.getMediaUrl().isBlank())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media URL is required for images and videos");
         }
         if (dto.getDurationSeconds() == null || dto.getDurationSeconds() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duration must be greater than 0");

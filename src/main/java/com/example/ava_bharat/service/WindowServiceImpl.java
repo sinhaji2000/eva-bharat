@@ -59,6 +59,9 @@ public class WindowServiceImpl implements WindowService {
     @Override
     @Transactional
     public PlaylistItemDto addMediaToWindow(Long windowId, AddPlaylistItemRequestDto request) {
+        if (request.getMediaId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "mediaId is required");
+        }
         Window window = windowRepository.findById(windowId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Window not found"));
         MediaItem media = mediaItemRepository.findById(request.getMediaId())
@@ -83,6 +86,15 @@ public class WindowServiceImpl implements WindowService {
                 .build();
 
         return playlistMapper.toDto(playlistItemRepository.save(item));
+    }
+
+    @Override
+    @Transactional
+    public void removeMediaFromWindow(Long windowId, Long playlistItemId) {
+        PlaylistItem item = playlistItemRepository.findById(playlistItemId)
+                .filter(found -> found.getWindow().getId().equals(windowId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Playlist item not found"));
+        playlistItemRepository.delete(item);
     }
 
     @Override

@@ -19,5 +19,7 @@ public interface WindowService {
 
     PlaylistItemDto addMediaToWindow(Long windowId, AddPlaylistItemRequestDto request);
 
+    void removeMediaFromWindow(Long windowId, Long playlistItemId);
+
     PlaybackStateDto getPlaybackState();
 }
