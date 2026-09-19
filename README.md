@@ -22,7 +22,7 @@ The API starts on `http://localhost:8080`. The database `ava_bharat` is created 
 | `DB_URL` | `jdbc:mysql://localhost:3306/ava_bharat?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false` | JDBC URL |
 | `DB_USERNAME` | `root` | DB user |
 | `DB_PASSWORD` | `root` | DB password |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Comma-separated frontend origins |
+| `CORS_ALLOWED_ORIGINS` | `https://music-system-eva.vercel.app,http://localhost:5173,http://localhost:3000` | Comma-separated frontend origins |
 
 ## Seed data
 
