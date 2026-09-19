@@ -40,3 +40,12 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Heroku's Gradle buildpack runs `./gradlew stage`; build only the executable jar.
+tasks.register('stage') {
+	dependsOn 'bootJar'
+}
+
+tasks.named('jar') {
+	enabled = false
+}
